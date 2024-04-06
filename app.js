@@ -1,7 +1,7 @@
 // app.js
 const express = require('express');
 const cors = require('cors');
-var redis = require("redis");
+var redis = require('redis');
 
 const app = express();
 
