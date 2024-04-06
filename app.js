@@ -5,8 +5,6 @@ var redis = require("redis");
 
 const app = express();
 
-cacheClient();
-
 
 // Middleware
 app.use(express.json()); // Parse JSON bodies
@@ -14,7 +12,13 @@ app.use(cors()); // Enable CORS for all routes
 
 // Routes
 app.get('/', (req, res) => {
-  res.send('Hello World!');
+  cacheClient();
+  client.get('rishav', function (err, res) {
+    res.send('Hello World!', res );
+    console.log(res);
+    console.log(err);
+  });
+
 });
 
 // Start the server
