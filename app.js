@@ -58,24 +58,21 @@ app.get('/', (req, res) => {
     console.log(req.query);
 
     // Example: Retrieve a value from Redis based on a key
-    const key = req.query.key;
+    const key = req.query.userid;
 
-    client.get(key, (err, output) => {
-        if (err) {
-            console.error('Redis get error:', err);
-            return res.status(500).send('Internal Server Error');
-        }
+    client.hget(key, field, (err, output) => {
+      if (err) {
+        console.error('Redis hget error:', err);
+        return res.status(500).send('Internal Server Error');
+      }
 
-        console.log('Redis get response:', output);
+      console.log('Redis hget response:', output);
 
-        // Check if value exists in Redis
-        if (output !== null) {
-            // Value found in Redis, send it as part of the response
-            res.send({output: output});
-        } else {
-            // Value not found in Redis
-            res.send({output: 'Hello World Duniya! (Redis Value Not Found)'});
-        }
+      if (output !== null) {
+        res.send({ output: output }); // Send the fetched value
+      } else {
+        res.send({ output: 'Field not found in hashmap!' });
+      }
     });
 });
 
