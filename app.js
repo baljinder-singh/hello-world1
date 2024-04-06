@@ -25,7 +25,7 @@ app.listen(PORT, () => {
 
 
 function cacheClient() {
-  var client = redis.createClient('6379', 'redis://red-co8cu4gl5elc738sqsf0');
+  var client = redis.createClient('6379', 'rediss://red-co8cu4gl5elc738sqsf0:erpLlKUo1CuqNIUnptMc0ERhGUW601ve@oregon-redis.render.com');
 
   client.on('connect', function () {
     console.log("connected");
