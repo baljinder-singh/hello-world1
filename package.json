@@ -1,0 +1,19 @@
+{
+  "name": "my-express-app",
+  "version": "1.0.0",
+  "description": "A simple Express.js application with CORS middleware",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "keywords": [
+    "express",
+    "cors"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.2",
+    "cors": "^2.8.5"
+  }
+}
