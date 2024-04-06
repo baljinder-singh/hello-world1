@@ -37,17 +37,25 @@ app.post('/', (req, res) => {
     console.log(req.body);
 
     // Example: Set a value in Redis
-    const key = req.query.key;
-    const value = req.query.value;
+    const key = req.query.userid;
+    const field = req.body.type + req.body.brand;
+    const value = JSON.stringify(req.body);
 
-    client.set(key, value, (err, reply) => {
-        if (err) {
-            console.error('Redis set error:', err);
-            return res.status(500).send('Internal Server Error');
-        }
-        console.log('Redis set response:', reply);
-        res.send({message: 'Hello World Duniya!'}); // Send response to client
-    });
+    console.log('key');
+    console.log(key);
+    console.log('field');
+    console.log(field);
+    console.log('value');
+    console.log(value);
+
+    client.hset(key, field, value, (err, reply) => {
+    if (err) {
+      console.error('Redis hset error:', err);
+      return res.status(500).send('Internal Server Error');
+    }
+    console.log('Redis hset response:', reply);
+    res.send({ message: 'Data set in hashmap successfully!' });
+  });
 });
 
 // GET route handler
