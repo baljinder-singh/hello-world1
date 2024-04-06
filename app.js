@@ -45,7 +45,7 @@ app.get('/', (req, res) => {
   client.get('rishav', function (err, output) {
     console.log(output);
     console.log(err);
-    res.send('Hello World Duniya!', output);
+    res.send('Hello World Duniya!');
   });
 
 
