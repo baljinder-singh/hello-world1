@@ -50,16 +50,32 @@ app.post('/', (req, res) => {
     });
 });
 
+// GET route handler
 app.get('/', (req, res) => {
-  console.log('req.query in get');
-  console.log(req.query);
-  client.get('rishav', function (err, output) {
-    console.log(output);
-    console.log(err);
-    res.send('Hello World Duniya!');
-  });
+    // Log request query parameters
+    console.log('Request Query Parameters for get request:');
+    console.log(req.query);
 
+    // Example: Retrieve a value from Redis based on a key
+    const key = 'rishav';
 
+    client.get(key, (err, output) => {
+        if (err) {
+            console.error('Redis get error:', err);
+            return res.status(500).send('Internal Server Error');
+        }
+
+        console.log('Redis get response:', output);
+
+        // Check if value exists in Redis
+        if (output !== null) {
+            // Value found in Redis, send it as part of the response
+            res.send(`Hello World Duniya! Redis Value: ${output}`);
+        } else {
+            // Value not found in Redis
+            res.send('Hello World Duniya! (Redis Value Not Found)');
+        }
+    });
 });
 
 // Start the server
