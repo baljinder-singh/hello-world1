@@ -28,9 +28,6 @@ app.use(cors()); // Enable CORS for all routes
 
 // POST route handler
 app.post('/', (req, res) => {
-
-  console.log('req in post');
-  console.log(req);
     // Log request query parameters
     console.log('Request Query Parameters:');
     console.log(req.query);
@@ -40,8 +37,8 @@ app.post('/', (req, res) => {
     console.log(req.body);
 
     // Example: Set a value in Redis
-    const key = 'rishav';
-    const value = 'Navin';
+    const key = req.query.key;
+    const value = req.query.value;
 
     client.set(key, value, (err, reply) => {
         if (err) {
@@ -60,7 +57,7 @@ app.get('/', (req, res) => {
     console.log(req.query);
 
     // Example: Retrieve a value from Redis based on a key
-    const key = 'rishav';
+    const key = req.query.key;
 
     client.get(key, (err, output) => {
         if (err) {
@@ -76,7 +73,7 @@ app.get('/', (req, res) => {
             res.send(`Hello World Duniya! Redis Value: ${output}`);
         } else {
             // Value not found in Redis
-            res.send('Hello World Duniya! (Redis Value Not Found)');
+            res.send({output: output});
         }
     });
 });
