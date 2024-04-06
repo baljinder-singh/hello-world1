@@ -1,0 +1,25 @@
+{
+    "camelcase": true,
+    "curly": true,
+    "eqeqeq": true,
+    "freeze": true,
+    "indent": 2,
+    "newcap": true,
+    "quotmark": "single",
+    "maxdepth": 3,
+    "maxstatements": 20,
+    "maxlen": 100,
+    "eqnull": true,
+    "funcscope": true,
+    "node": true,
+
+    "globals": {
+        /* MOCHA */
+        "after": false,
+        "afterEach": false,
+        "before": false,
+        "beforeEach": false,
+        "describe": false,
+        "it": false
+    }
+}

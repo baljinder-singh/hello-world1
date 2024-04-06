@@ -1,0 +1,5 @@
+node_modules/
+npm-debug.log
+tools/swagger-editor/node_modules/
+tools/swagger-editor/npm-debug.log
+coverage/

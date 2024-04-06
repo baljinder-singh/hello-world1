@@ -18,7 +18,7 @@ client.on('connect', function () {
 });
 
 client.on('error', function (error) {
-  console.log("error", error);
+  console.log('error', error);
 });
 
 
@@ -27,19 +27,27 @@ app.use(express.json()); // Parse JSON bodies
 app.use(cors()); // Enable CORS for all routes
 
 // Routes
-app.get('/setData', (req, res) => {
+app.post('/', (req, res) => {
   console.log('req.query');
   console.log(req.query);
-  setDataInCache();
-  res.send('Hello World Duniya!');
+  client.set('rishav', 'Navin', function (err, output) {
+    console.log(output);
+    console.log(err);
+    res.send('Hello World Duniya!', output);
+  });
+
 
 });
 
-app.get('/getData', (req, res) => {
+app.get('/', (req, res) => {
   console.log('req.query');
   console.log(req.query);
-  getDataFromCache();
-  res.send('Hello World Duniya!');
+  client.get('rishav', function (err, output) {
+    console.log(output);
+    console.log(err);
+    res.send('Hello World Duniya!', output);
+  });
+
 
 });
 
@@ -48,18 +56,3 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
-
-
-function setDataInCache() {
-  client.set('rishav', 'Navin', function (err, res) {
-    console.log(res);
-    console.log(err);
-  });
-}
-
-function getDataFromCache(client) {
-  client.get('rishav', function (err, res) {
-    console.log(res);
-    console.log(err);
-  });
-}
