@@ -13,11 +13,7 @@ app.use(cors()); // Enable CORS for all routes
 // Routes
 app.get('/', (req, res) => {
   client = cacheClient();
-  client.get('rishav', function (err, output) {
-    res.send('Hello World!', output );
-    console.log(res);
-    console.log(err);
-  });
+  res.send('Hello World Duniya!');
 
 });
 
@@ -29,7 +25,7 @@ app.listen(PORT, () => {
 
 
 function cacheClient() {
-  var client = redis.createClient('6379', 'redis://red-co8cu4gl5elc738sqsf0');
+  var client = redis.createClient('6379', 'rediss://red-co8cu4gl5elc738sqsf0:erpLlKUo1CuqNIUnptMc0ERhGUW601ve@oregon-redis.render.com');
 
   client.on('connect', function () {
     console.log("connected");
