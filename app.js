@@ -60,7 +60,7 @@ app.get('/', (req, res) => {
     // Example: Retrieve a value from Redis based on a key
     const key = req.query.userid;
 
-    client.hget(key, (err, output) => {
+    client.hgetall(key, (err, output) => {
       if (err) {
         console.error('Redis hget error:', err);
         return res.status(500).send('Internal Server Error');
