@@ -28,6 +28,9 @@ app.use(cors()); // Enable CORS for all routes
 
 // POST route handler
 app.post('/', (req, res) => {
+
+  console.log('req in post');
+  console.log(req);
     // Log request query parameters
     console.log('Request Query Parameters:');
     console.log(req.query);
@@ -46,7 +49,7 @@ app.post('/', (req, res) => {
             return res.status(500).send('Internal Server Error');
         }
         console.log('Redis set response:', reply);
-        res.send('Hello World Duniya!'); // Send response to client
+        res.send({message: 'Hello World Duniya!'}); // Send response to client
     });
 });
 
