@@ -70,10 +70,10 @@ app.get('/', (req, res) => {
         // Check if value exists in Redis
         if (output !== null) {
             // Value found in Redis, send it as part of the response
-            res.send(`Hello World Duniya! Redis Value: ${output}`);
+            res.send({output: output});
         } else {
             // Value not found in Redis
-            res.send({output: output});
+            res.send({output: 'Hello World Duniya! (Redis Value Not Found)'});
         }
     });
 });
