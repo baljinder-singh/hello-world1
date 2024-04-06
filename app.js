@@ -25,7 +25,13 @@ app.listen(PORT, () => {
 
 
 function cacheClient() {
-  var client = redis.createClient('6379', 'rediss://red-co8cu4gl5elc738sqsf0:erpLlKUo1CuqNIUnptMc0ERhGUW601ve@oregon-redis.render.com');
+  var client = redis.createClient('12611', 'redis-12611.c1.us-west-2-2.ec2.cloud.redislabs.com');
+
+  client.auth('qWj1TjnQ649eEHajzsfFmYO3yIIDDDIS', function(err) {
+    if(err) {
+      console.log('err');
+    }
+  });
 
   client.on('connect', function () {
     console.log("connected");
