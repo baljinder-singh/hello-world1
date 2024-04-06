@@ -12,7 +12,7 @@ app.use(cors()); // Enable CORS for all routes
 
 // Routes
 app.get('/', (req, res) => {
-  cacheClient();
+  client = cacheClient();
   client.get('rishav', function (err, output) {
     res.send('Hello World!', output );
     console.log(res);
