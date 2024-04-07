@@ -3,7 +3,7 @@ const { InfluxDBClient, Point } = require('@influxdata/influxdb3-client');
 
 const timeseriesClient = new InfluxDBClient({
   host: 'https://us-east-1-1.aws.cloud2.influxdata.com',
-  token: token
+  token: process.env.token
 });
 
 let database = `testingtimeseriesdata`;
