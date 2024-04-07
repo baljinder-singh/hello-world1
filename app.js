@@ -4,8 +4,31 @@ const cors = require('cors');
 var redis = require('redis');
 const Canvas = require('canvas'); // Required for jsbarcode
 const bwipjs = require('bwip-js');
+import {InfluxDBClient, Point} from '@influxdata/influxdb3-client'
+
+const token = process.env.INFLUXDB_TOKEN;
 
 const app = express();
+
+async function main() {
+  console.log('Going to create influx timeseries connection');
+
+  try{
+    const timeseriesClient = new InfluxDBClient({host: 'https://us-east-1-1.aws.cloud2.influxdata.com', token: token});
+
+    console.log('Created influx timeseries connection');
+
+    setTimeout(function() {
+    timeseriesClient.close();
+  }, 3600000);
+  }
+  catch(e) {
+    console.log('Got error while creating timeseries connection');
+    console.log(e);
+  }
+}
+
+main();
 
 var client = redis.createClient('12611', 'redis-12611.c1.us-west-2-2.ec2.cloud.redislabs.com');
 
