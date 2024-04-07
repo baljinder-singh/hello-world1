@@ -59,12 +59,12 @@ WHERE time >= now() - interval '24 hours' AND
 
   const rows = await timeseriesClient.query(query, 'testingtimeseriesdata')
 
-  console.log(`${"ants".padEnd(5)}${"bees".padEnd(5)}${"location".padEnd(10)}${"time".padEnd(15)}`);
+  console.log(`${"ants".padEnd(15)}${"bees".padEnd(15)}${"location".padEnd(30)}${"time".padEnd(45)}`);
   for await (const row of rows) {
     let ants = row.ants || '';
     let bees = row.bees || '';
     let time = new Date(row.time);
-    console.log(`${ants.toString().padEnd(5)}${bees.toString().padEnd(5)}${row.location.padEnd(10)}${time.toString().padEnd(15)}`);
+    console.log(`${ants.toString().padEnd(15)}${bees.toString().padEnd(15)}${row.location.padEnd(30)}${time.toString().padEnd(45)}`);
   }
 }
 
