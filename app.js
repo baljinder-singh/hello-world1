@@ -130,8 +130,13 @@ app.get('/bill', (req, res) => {
     });
 });
 
-app.get('/barcode/:productId', (req, res) => {
-  const productId = req.params.productId;
+app.get('/barcode', (req, res) => {
+
+  console.log('Request Query Parameters for get request:');
+  console.log(req.query);
+
+  // Example: Retrieve a value from Redis based on a key
+  const productId = req.query.productId;
 
   // Generate a canvas element
   const canvas = new Canvas(200, 50); // Adjust width and height as needed
