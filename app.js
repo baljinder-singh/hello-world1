@@ -11,43 +11,28 @@ const {
 
 const token = process.env.INFLUXDB_TOKEN;
 
+
+const timeseriesClient = new InfluxDBClient({
+  host: 'https://us-east-1-1.aws.cloud2.influxdata.com',
+  token: token
+});
+
+let database = `testingtimeseriesdata`;
+
 console.log('token value');
 console.log(token);
 
 const app = express();
 
-async function main() {
+async function createTimeseriesDataPoint() {
   console.log('Going to create influx timeseries connection');
 
   try {
-    const timeseriesClient = new InfluxDBClient({
-      host: 'https://us-east-1-1.aws.cloud2.influxdata.com',
-      token: token
-    });
-
-    console.log('Created influx timeseries connection');
-
-    let database = `testingtimeseriesdata`;
-
     const points = [
             Point.measurement("census")
                 .setTag("location", "Klamath")
-                .setIntegerField("bees", 23),
-            Point.measurement("census")
-                .setTag("location", "Portland")
-                .setIntegerField("ants", 30),
-            Point.measurement("census")
-                .setTag("location", "Klamath")
-                .setIntegerField("bees", 28),
-            Point.measurement("census")
-                .setTag("location", "Portland")
-                .setIntegerField("ants", 32),
-            Point.measurement("census")
-                .setTag("location", "Klamath")
-                .setIntegerField("bees", 29),
-            Point.measurement("census")
-                .setTag("location", "Portland")
-                .setIntegerField("ants", 40)
+                .setTag("area", "india")
+                .setIntegerField("bees", 23)
         ];
 
     for (let i = 0; i < points.length; i++) {
@@ -56,23 +41,36 @@ async function main() {
       console.log(point);
       await timeseriesClient.write(point, database)
         .then(function () {
-        console.log('Data wrote successfully');
+          console.log('Data wrote successfully');
           new Promise(resolve => setTimeout(resolve, 1000))
         });
     }
 
-
-
-    setTimeout(function () {
-      timeseriesClient.close();
-    }, 3600000);
   } catch (e) {
     console.log('Got error while creating timeseries connection');
     console.log(e);
   }
 }
 
-main();
+function fetchDataFromTimeseries() {
+  const query = `SELECT * FROM 'census'
+WHERE time >= now() - interval '24 hours' AND
+('bees' IS NOT NULL OR 'ants' IS NOT NULL) order by time asc`
+
+  const rows = await client.query(query, 'testingtimeseriesdata')
+
+  console.log(`${"ants".padEnd(5)}${"bees".padEnd(5)}${"location".padEnd(10)}${"time".padEnd(15)}`);
+  for await (const row of rows) {
+    let ants = row.ants || '';
+    let bees = row.bees || '';
+    let time = new Date(row.time);
+    console.log(`${ants.toString().padEnd(5)}${bees.toString().padEnd(5)}${row.location.padEnd(10)}${time.toString().padEnd(15)}`);
+  }
+}
+
+createTimeseriesDataPoint();
+
+fetchDataFromTimeseries();
 
 var client = redis.createClient('12611', 'redis-12611.c1.us-west-2-2.ec2.cloud.redislabs.com');
 
