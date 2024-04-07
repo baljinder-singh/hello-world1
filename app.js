@@ -57,7 +57,7 @@ async function fetchDataFromTimeseries() {
 WHERE time >= now() - interval '24 hours' AND
 ('bees' IS NOT NULL OR 'ants' IS NOT NULL) order by time asc`
 
-  const rows = await client.query(query, 'testingtimeseriesdata')
+  const rows = await timeseriesClient.query(query, 'testingtimeseriesdata')
 
   console.log(`${"ants".padEnd(5)}${"bees".padEnd(5)}${"location".padEnd(10)}${"time".padEnd(15)}`);
   for await (const row of rows) {
