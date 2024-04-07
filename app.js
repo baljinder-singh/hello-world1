@@ -21,9 +21,42 @@ async function main() {
 
     console.log('Created influx timeseries connection');
 
+    let database = `testingtimeseriesdata`;
+
+    const points =
+        [
+            Point.measurement("census")
+                .setTag("location", "Klamath")
+                .setIntegerField("bees", 23),
+            Point.measurement("census")
+                .setTag("location", "Portland")
+                .setIntegerField("ants", 30),
+            Point.measurement("census")
+                .setTag("location", "Klamath")
+                .setIntegerField("bees", 28),
+            Point.measurement("census")
+                .setTag("location", "Portland")
+                .setIntegerField("ants", 32),
+            Point.measurement("census")
+                .setTag("location", "Klamath")
+                .setIntegerField("bees", 29),
+            Point.measurement("census")
+                .setTag("location", "Portland")
+                .setIntegerField("ants", 40)
+        ];
+
+    for (let i = 0; i < points.length; i++) {
+        const point = points[i];
+        await timeseriesClient.write(point, database)
+            // separate points by 1 second
+            .then(() => new Promise(resolve => setTimeout(resolve, 1000)));
+    }
+
+
+
     setTimeout(function() {
-    timeseriesClient.close();
-  }, 3600000);
+      timeseriesClient.close();
+    }, 3600000);
   }
   catch(e) {
     console.log('Got error while creating timeseries connection');
