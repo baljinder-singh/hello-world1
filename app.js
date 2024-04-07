@@ -4,7 +4,10 @@ const cors = require('cors');
 var redis = require('redis');
 const Canvas = require('canvas'); // Required for jsbarcode
 const bwipjs = require('bwip-js');
-import {InfluxDBClient, Point} from '@influxdata/influxdb3-client'
+const influx = require('@influxdata/influxdb3-client');
+
+InfluxDBClient = influx.InfluxDBClient;
+Point = influx.Point;
 
 const token = process.env.INFLUXDB_TOKEN;
 
