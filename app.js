@@ -4,18 +4,7 @@ const cors = require('cors');
 var redis = require('redis');
 const Canvas = require('canvas'); // Required for jsbarcode
 const bwipjs = require('bwip-js');
-const {
-  InfluxDBClient,
-  Point
-} = require('@influxdata/influxdb3-client');
-
-const token = process.env.INFLUXDB_TOKEN;
-
-
-const timeseriesClient = new InfluxDBClient({
-  host: 'https://us-east-1-1.aws.cloud2.influxdata.com',
-  token: token
-});
+const timeseriesDB = require('./timeseriesDB.js');
 
 let database = `testingtimeseriesdata`;
 
@@ -24,53 +13,10 @@ console.log(token);
 
 const app = express();
 
-async function createTimeseriesDataPoint() {
-  console.log('Going to create influx timeseries connection');
 
-  try {
-    const points = [
-            Point.measurement("census")
-            .setTag("location", "Klamath")
-            .setTag("area", "india")
-            .setIntegerField("bees", 23)
-        ];
+timeseriesDB.createTimeseriesDataPoint();
 
-    for (let i = 0; i < points.length; i++) {
-      const point = points[i];
-      console.log('point');
-      console.log(point);
-      await timeseriesClient.write(point, database)
-        .then(function () {
-          console.log('Data wrote successfully');
-          new Promise(resolve => setTimeout(resolve, 1000))
-        });
-    }
-
-  } catch (e) {
-    console.log('Got error while creating timeseries connection');
-    console.log(e);
-  }
-}
-
-async function fetchDataFromTimeseries() {
-  const query = `SELECT * FROM 'census'
-WHERE time >= now() - interval '24 hours' AND
-('bees' IS NOT NULL OR 'ants' IS NOT NULL) order by time asc`
-
-  const rows = await timeseriesClient.query(query, 'testingtimeseriesdata')
-
-  console.log(`${"ants".padEnd(15)}${"bees".padEnd(15)}${"location".padEnd(30)}${"time".padEnd(45)}`);
-  for await (const row of rows) {
-    let ants = row.ants || '';
-    let bees = row.bees || '';
-    let time = new Date(row.time);
-    console.log(`${ants.toString().padEnd(15)}${bees.toString().padEnd(15)}${row.location.padEnd(30)}${time.toString().padEnd(45)}`);
-  }
-}
-
-createTimeseriesDataPoint();
-
-fetchDataFromTimeseries();
+timeseriesDB.fetchDataFromTimeseries();
 
 var client = redis.createClient('12611', 'redis-12611.c1.us-west-2-2.ec2.cloud.redislabs.com');
 
