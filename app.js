@@ -2,6 +2,8 @@
 const express = require('express');
 const cors = require('cors');
 var redis = require('redis');
+const Canvas = require('canvas'); // Required for jsbarcode
+const jsBarcode = require('jsbarcode');
 
 const app = express();
 
@@ -127,6 +129,23 @@ app.get('/bill', (req, res) => {
       }
     });
 });
+
+app.get('/barcode/:productId', (req, res) => {
+  const productId = req.params.productId;
+
+  // Generate a canvas element
+  const canvas = new Canvas(200, 50); // Adjust width and height as needed
+  const ctx = canvas.getContext('2d');
+
+  // Generate the barcode with jsbarcode
+  jsBarcode(canvas, productId);
+
+  // Send the barcode image as a response
+  const buffer = canvas.toBuffer('image/png');
+  res.contentType('image/png');
+  res.send(buffer);
+});
+
 
 // Start the server
 const PORT = process.env.PORT || 3000;

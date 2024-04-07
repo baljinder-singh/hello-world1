@@ -15,6 +15,8 @@
   "dependencies": {
     "express": "^4.17.2",
     "redis": "2.8.0",
+    "jsbarcode": "^3.11.6",
+    "canvas": "^2.9.0",
     "cors": "^2.8.5"
   }
 }
