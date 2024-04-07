@@ -30,9 +30,9 @@ async function createTimeseriesDataPoint() {
   try {
     const points = [
             Point.measurement("census")
-                .setTag("location", "Klamath")
-                .setTag("area", "india")
-                .setIntegerField("bees", 23)
+            .setTag("location", "Klamath")
+            .setTag("area", "india")
+            .setIntegerField("bees", 23)
         ];
 
     for (let i = 0; i < points.length; i++) {
@@ -52,7 +52,7 @@ async function createTimeseriesDataPoint() {
   }
 }
 
-function fetchDataFromTimeseries() {
+async function fetchDataFromTimeseries() {
   const query = `SELECT * FROM 'census'
 WHERE time >= now() - interval '24 hours' AND
 ('bees' IS NOT NULL OR 'ants' IS NOT NULL) order by time asc`
