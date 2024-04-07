@@ -63,7 +63,7 @@ app.post('/bill', (req, res) => {
 
     // Example: Set a value in Redis
     const key = req.query.userid + '-bill';
-    const field = req.body.id;
+    const field = (Math.random()*1000000).toFixed(6);
     const value = JSON.stringify(req.body);
 
     client.hset(key, field, value, (err, reply) => {
