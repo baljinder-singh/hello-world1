@@ -18,6 +18,6 @@ client.on('error', function (error) {
 });
 
 module.exports = {
-  client = client
+  client: client
 };
 
