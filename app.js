@@ -61,9 +61,10 @@ app.post('/bill', (req, res) => {
     console.log('Request Body:');
     console.log(req.body);
 
+  var random number =
     // Example: Set a value in Redis
     const key = req.query.userid + '-bill';
-    const field = (Math.random()*1000000).toFixed(6);
+    const field = Math.floor(Math.random()*10000000);
     const value = JSON.stringify(req.body);
 
     client.hset(key, field, value, (err, reply) => {
