@@ -101,6 +101,32 @@ app.get('/', (req, res) => {
     });
 });
 
+
+// GET route handler
+app.get('/bill', (req, res) => {
+    // Log request query parameters
+    console.log('Request Query Parameters for get request:');
+    console.log(req.query);
+
+    // Example: Retrieve a value from Redis based on a key
+    const key = req.query.userid + '-bill';
+
+    client.hgetall(key, (err, output) => {
+      if (err) {
+        console.error('Redis hget error:', err);
+        return res.status(500).send('Internal Server Error');
+      }
+
+      console.log('Redis hget response:', output);
+
+      if (output !== null) {
+        res.send({ output: output }); // Send the fetched value
+      } else {
+        res.send({ output: 'Field not found in hashmap!' });
+      }
+    });
+});
+
 // Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
