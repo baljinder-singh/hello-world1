@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 var redis = require('redis');
 const Canvas = require('canvas'); // Required for jsbarcode
-const jsBarcode = require('jsbarcode');
+const bwipjs = require('bwip-js');
 
 const app = express();
 
@@ -138,16 +138,24 @@ app.get('/barcode', (req, res) => {
   const productId = req.query.productId;
 
   // Generate a canvas element
-  const canvas = new Canvas(200, 50); // Adjust width and height as needed
-  const ctx = canvas.getContext('2d');
+  // Generate barcode using bwip-js
+    bwipjs.toBuffer({
+        bcid: 'code128', // Use 'code128' for barcode type (you can change to other types as needed)
+        text: productId, // Product ID to be encoded in the barcode
+        scale: 3, // Scale factor (increase for larger barcode)
+        height: 10, // Height of the barcode (in mm)
+        includetext: true, // Include human-readable text below the barcode
+        textxalign: 'center', // Text alignment (centered below the barcode)
+    }, (err, png) => {
+        if (err) {
+            console.error('Barcode generation error:', err);
+            return res.status(500).json({ error: 'Barcode generation error' });
+        }
 
-  // Generate the barcode with jsbarcode
-  jsBarcode(canvas, productId);
-
-  // Send the barcode image as a response
-  const buffer = canvas.toBuffer('image/png');
-  res.contentType('image/png');
-  res.send(buffer);
+        // Send the generated barcode image as a response
+        res.writeHead(200, { 'Content-Type': 'image/png' });
+        res.end(png, 'binary');
+    });
 });
 
 
