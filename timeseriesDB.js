@@ -6,6 +6,8 @@ const timeseriesClient = new InfluxDBClient({
   token: token
 });
 
+let database = `testingtimeseriesdata`;
+
 async function createTimeseriesDataPoint() {
   console.log('Going to create influx timeseries connection');
 
