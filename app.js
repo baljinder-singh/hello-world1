@@ -51,6 +51,31 @@ app.post('/', (req, res) => {
   });
 });
 
+// POST BILL route handler
+app.post('/bill', (req, res) => {
+    // Log request query parameters
+    console.log('Request Query Parameters:');
+    console.log(req.query);
+
+    // Log request body (parsed by bodyParser middleware)
+    console.log('Request Body:');
+    console.log(req.body);
+
+    // Example: Set a value in Redis
+    const key = req.query.userid + '-bill';
+    const field = req.body.id;
+    const value = JSON.stringify(req.body);
+
+    client.hset(key, field, value, (err, reply) => {
+    if (err) {
+      console.error('Redis hset error:', err);
+      return res.status(500).send('Internal Server Error');
+    }
+    console.log('Redis hset response:', reply);
+    res.send({ message: 'Data set in hashmap successfully!' });
+  });
+});
+
 // GET route handler
 app.get('/', (req, res) => {
     // Log request query parameters
