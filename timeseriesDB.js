@@ -42,13 +42,19 @@ async function fetchDataFromTimeseries() {
 WHERE time >= now() - interval '24 hours' AND
 ('bees' IS NOT NULL OR 'ants' IS NOT NULL) order by time asc`
 
+  console.log('query&&&&&&&&&&&&&&&&');
+  console.log(query);
+
   const rows = await timeseriesClient.query(query, 'testingtimeseriesdata');
 
-  console.log(`${"ants".padEnd(15)}${"bees".padEnd(15)}${"location".padEnd(30)}${"time".padEnd(45)}`);
+  console.log(`${"ants".padEnd(5)}${"bees".padEnd(5)}${"location".padEnd(10)}${"time".padEnd(25)}`);
   for await (const row of rows) {
     let ants = row.ants || '';
     let bees = row.bees || '';
     let time = new Date(row.time);
+
+    console.log('row%%%%%%%%%%%%%%%%%%%%%%%%');
+  console.log(row);
     console.log(`${ants.toString().padEnd(15)}${bees.toString().padEnd(15)}${row.location.padEnd(30)}${time.toString().padEnd(45)}`);
   }
 };

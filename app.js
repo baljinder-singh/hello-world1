@@ -1,39 +1,23 @@
 // app.js
 const express = require('express');
 const cors = require('cors');
-var redis = require('redis');
 const Canvas = require('canvas'); // Required for jsbarcode
 const bwipjs = require('bwip-js');
+
+
 const timeseriesDB = require('./timeseriesDB.js');
-
-let database = `testingtimeseriesdata`;
-
-console.log('token value');
-console.log(token);
+const cacheDB = require('./cacheDB.js');
 
 const app = express();
 
 
+console.log('Going to createTimeseriesDataPoint');
 timeseriesDB.createTimeseriesDataPoint();
 
+console.log('Going to createTimeseriesDataPoint');
 timeseriesDB.fetchDataFromTimeseries();
 
-var client = redis.createClient('12611', 'redis-12611.c1.us-west-2-2.ec2.cloud.redislabs.com');
-
-client.auth('qWj1TjnQ649eEHajzsfFmYO3yIIDDDIS', function (err) {
-  if (err) {
-    console.log('err');
-  }
-});
-
-client.on('connect', function () {
-  console.log("connected");
-});
-
-client.on('error', function (error) {
-  console.log('error', error);
-});
-
+console.log('All DOne');
 
 // Middleware
 app.use(express.json()); // Parse JSON bodies
@@ -54,7 +38,7 @@ app.post('/', (req, res) => {
   const field = req.body.id;
   const value = JSON.stringify(req.body);
 
-  client.hset(key, field, value, (err, reply) => {
+  cacheDB.client.hset(key, field, value, (err, reply) => {
     if (err) {
       console.error('Redis hset error:', err);
       return res.status(500).send('Internal Server Error');
@@ -81,7 +65,7 @@ app.post('/bill', (req, res) => {
   const field = Math.floor(Math.random() * 10000000);
   const value = JSON.stringify(req.body);
 
-  client.hset(key, field, value, (err, reply) => {
+  cacheDB.client.hset(key, field, value, (err, reply) => {
     if (err) {
       console.error('Redis hset error:', err);
       return res.status(500).send('Internal Server Error');
@@ -102,7 +86,7 @@ app.get('/', (req, res) => {
   // Example: Retrieve a value from Redis based on a key
   const key = req.query.userid;
 
-  client.hgetall(key, (err, output) => {
+  cacheDB.client.hgetall(key, (err, output) => {
     if (err) {
       console.error('Redis hget error:', err);
       return res.status(500).send('Internal Server Error');
@@ -132,7 +116,7 @@ app.get('/bill', (req, res) => {
   // Example: Retrieve a value from Redis based on a key
   const key = req.query.userid + '-bill';
 
-  client.hgetall(key, (err, output) => {
+  cacheDB.client.hgetall(key, (err, output) => {
     if (err) {
       console.error('Redis hget error:', err);
       return res.status(500).send('Internal Server Error');
