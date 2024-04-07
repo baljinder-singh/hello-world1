@@ -8,6 +8,11 @@ import {InfluxDBClient, Point} from '@influxdata/influxdb3-client'
 
 const token = process.env.INFLUXDB_TOKEN;
 
+console.log('token');
+console.log(token);
+console.log('environment variable');
+console.log(process.env);
+
 const app = express();
 
 async function main() {
