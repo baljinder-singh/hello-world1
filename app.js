@@ -37,8 +37,8 @@ app.post('/', (req, res) => {
     console.log(req.body);
 
     // Example: Set a value in Redis
-    const key = req.body.id;
-    const field = req.body.type + '-' + req.body.brand;
+    const key = req.query.userid;
+    const field = req.body.id;
     const value = JSON.stringify(req.body);
 
     client.hset(key, field, value, (err, reply) => {
