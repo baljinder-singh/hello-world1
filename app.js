@@ -5,17 +5,17 @@ const Canvas = require('canvas'); // Required for jsbarcode
 const bwipjs = require('bwip-js');
 
 
-const timeseriesDB = require('./timeseriesDB.js');
+//const timeseriesDB = require('./timeseriesDB.js');
 const cacheDB = require('./cacheDB.js');
 
 const app = express();
 
 
 console.log('Going to createTimeseriesDataPoint');
-timeseriesDB.createTimeseriesDataPoint();
+//timeseriesDB.createTimeseriesDataPoint();
 
 console.log('Going to createTimeseriesDataPoint');
-timeseriesDB.fetchDataFromTimeseries();
+//timeseriesDB.fetchDataFromTimeseries();
 
 console.log('All DOne');
 
