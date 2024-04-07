@@ -8,7 +8,7 @@ const { InfluxDBClient, Point }  = require('@influxdata/influxdb3-client');
 
 const token = process.env.INFLUXDB_TOKEN;
 
-console.log('token');
+console.log('token value');
 console.log(token);
 
 const app = express();
