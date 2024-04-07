@@ -129,34 +129,31 @@ app.get('/bill', (req, res) => {
     });
 });
 
-app.get('/barcode', (req, res) => {
+// Endpoint to generate barcode
+app.get('/generateBarcode', (req, res) => {
+    const { productId } = req.query;
 
-  console.log('Request Query Parameters for get request:');
-  console.log(req.query);
-
-  // Example: Retrieve a value from Redis based on a key
-  const productId = req.query.productId;
-
-  // Generate a canvas element
-  // Generate barcode using bwip-js
+    // Generate barcode using bwip-js
     bwipjs.toBuffer({
-        bcid: 'code128', // Use 'code128' for barcode type (you can change to other types as needed)
-        text: productId, // Product ID to be encoded in the barcode
-        scale: 3, // Scale factor (increase for larger barcode)
+        bcid: 'code128', // Barcode type: code128 (or other supported types)
+        text: productId, // Text to encode in the barcode
+        scale: 3, // Scaling factor
         height: 10, // Height of the barcode (in mm)
         includetext: true, // Include human-readable text below the barcode
-        textxalign: 'center', // Text alignment (centered below the barcode)
+        textxalign: 'center' // Text alignment
     }, (err, png) => {
         if (err) {
             console.error('Barcode generation error:', err);
-            return res.status(500).json({ error: 'Barcode generation error' });
+            res.status(500).send('Barcode generation error');
+        } else {
+            // Send the generated barcode image as base64 data
+            const base64Data = Buffer.from(png).toString('base64');
+            const imgSrc = `data:image/png;base64,${base64Data}`;
+            res.send(imgSrc);
         }
-
-        // Send the generated barcode image as a response
-        res.writeHead(200, { 'Content-Type': 'image/png' });
-        res.end(png, 'binary');
     });
 });
+
 
 
 // Start the server
