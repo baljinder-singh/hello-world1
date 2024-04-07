@@ -6,8 +6,6 @@ const Canvas = require('canvas'); // Required for jsbarcode
 const bwipjs = require('bwip-js');
 const { InfluxDBClient, Point }  = require('@influxdata/influxdb3-client');
 
-const Point = influx.Point;
-
 const token = process.env.INFLUXDB_TOKEN;
 
 console.log('token');
