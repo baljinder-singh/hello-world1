@@ -23,7 +23,7 @@ async function createTimeseriesDataPoint(dataArray) {
       const fields = data.fields || {}; // Fields (e.g., cost)
 
       // Create a new Point object for the data point
-      const point = new Point.measurement(measurementName);
+      const point = Point.measurement(measurementName);
 
       // Set tags for the data point
       for (const [tagName, tagValue] of Object.entries(tags)) {
