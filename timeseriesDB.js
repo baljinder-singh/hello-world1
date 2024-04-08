@@ -55,13 +55,7 @@ async function createTimeseriesDataPoint(dataArray) {
 }
 
 async function fetchDataFromTimeseries() {
-  const query = `SELECT SUM(cost) AS total_cost
-    FROM selling1
-    WHERE time >= now() - 30d AND
-          "customer" = 'baljinder'
-    GROUP BY time(1d)
-`
-
+  const query = `SELECT SUM(cost) AS total_cost FROM selling1 WHERE time >= now() - 30d AND "customer" = 'baljinder' GROUP BY time(1d)`
 
   const rows = await timeseriesClient.query(query, 'testingtimeseriesdata');
 
