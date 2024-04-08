@@ -11,10 +11,33 @@ const cacheDB = require('./cacheDB.js');
 const app = express();
 
 
-console.log('Going to createTimeseriesDataPoint');
-timeseriesDB.createTimeseriesDataPoint();
+// Example usage:
+const testData = [{
+    measurement: 'selling1',
+    tags: {
+      area: 'india',
+      customer: 'baljinder'
+    },
+    fields: {
+      cost: 1200
+    }
+},
+  {
+    measurement: 'selling1',
+    tags: {
+      area: 'england',
+      customer: 'baljinder'
+    },
+    fields: {
+      cost: 2400
+    }
+}];
 
-console.log('Going to @influxdata/influxdb3-client');
+timeseriesDB.createTimeseriesDataPoint(testData);
+
+
+// fetching data
+
 timeseriesDB.fetchDataFromTimeseries();
 
 console.log('All DOne');
@@ -43,6 +66,15 @@ app.post('/', (req, res) => {
       console.error('Redis hset error:', err);
       return res.status(500).send('Internal Server Error');
     }
+    // Example usage:
+    const testData = {
+        measurement: 'census',
+        tags: { location: 'Klamath', area: 'india' },
+        fields: { bees: 23 }
+    };
+
+    timeseriesDB.createTimeseriesDataPoint();
+
     console.log('Redis hset response:', reply);
     res.send({
       message: 'Data set in hashmap successfully!'

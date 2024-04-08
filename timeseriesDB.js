@@ -1,4 +1,7 @@
-const { InfluxDBClient, Point } = require('@influxdata/influxdb3-client');
+const {
+  InfluxDBClient,
+  Point
+} = require('@influxdata/influxdb3-client');
 
 
 const timeseriesClient = new InfluxDBClient({
@@ -8,54 +11,64 @@ const timeseriesClient = new InfluxDBClient({
 
 let database = `testingtimeseriesdata`;
 
-async function createTimeseriesDataPoint() {
-  console.log('Going to create influx timeseries connection');
-
+async function createTimeseriesDataPoint(dataArray) {
   try {
-    const points = [
-            Point.measurement("census")
-            .setTag("location", "Klamath")
-            .setTag("area", "india")
-            .setIntegerField("bees", 23)
-        ];
+    // Initialize an empty array to hold all data points
+    const points = [];
 
-    for (let i = 0; i < points.length; i++) {
-      const point = points[i];
-      console.log('point');
-      console.log(point);
-      await timeseriesClient.write(point, database)
-        .then(function () {
-          console.log('Data wrote successfully');
-          new Promise(resolve => setTimeout(resolve, 1000))
-        });
+    // Iterate over each data object in the array
+    for (const data of dataArray) {
+      const measurementName = data.measurement || 'census'; // Default measurement name
+      const tags = data.tags || {}; // Tags (e.g., location, area)
+      const fields = data.fields || {}; // Fields (e.g., cost)
+
+      // Create a new Point object for the data point
+      const point = new Point(measurementName);
+
+      // Set tags for the data point
+      for (const [tagName, tagValue] of Object.entries(tags)) {
+        point.tag(tagName, tagValue);
+      }
+
+      // Set fields for the data point (assuming all fields are integers)
+      for (const [fieldName, fieldValue] of Object.entries(fields)) {
+        point.intField(fieldName, fieldValue);
+      }
+
+      // Add the constructed point to the points array
+      points.push(point);
     }
 
-  } catch (e) {
-    console.log('Got error while creating timeseries connection');
-    console.log(e);
-  }
-};
+    // Write all data points to the timeseries database
+    for (const point of points) {
+      console.log('Writing data point:');
+      console.log(point.toLineProtocol()); // Log the data point in line protocol format
 
+      // Write the data point to the timeseries database
+      await timeseriesClient.write(point, database);
+      console.log('Data point written successfully');
+    }
+
+  } catch (error) {
+    console.error('Error creating timeseries data point:', error);
+  }
+}
 
 async function fetchDataFromTimeseries() {
-  const query = `SELECT * FROM 'census'
-WHERE time >= now() - interval '24 hours' AND
-('bees' IS NOT NULL OR 'ants' IS NOT NULL) order by time asc`
+  const query = `SELECT SUM(cost) AS total_cost
+    FROM selling1
+    WHERE time >= now() - 30d AND
+          "customer" = 'baljinder'
+    GROUP BY time(1d)
+`
 
-  console.log('query&&&&&&&&&&&&&&&&');
-  console.log(query);
 
   const rows = await timeseriesClient.query(query, 'testingtimeseriesdata');
 
-  console.log(`${"ants".padEnd(5)}${"bees".padEnd(5)}${"location".padEnd(10)}${"time".padEnd(25)}`);
   for await (const row of rows) {
-    let ants = row.ants || '';
-    let bees = row.bees || '';
-    let time = new Date(row.time);
+    console.log('row');
+    console.log(row);
 
-    console.log('row%%%%%%%%%%%%%%%%%%%%%%%%');
-  console.log(row);
-    console.log(`${ants.toString().padEnd(15)}${bees.toString().padEnd(15)}${row.location.padEnd(30)}${time.toString().padEnd(45)}`);
   }
 };
 
