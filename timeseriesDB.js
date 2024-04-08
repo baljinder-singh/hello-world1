@@ -53,7 +53,7 @@ async function createTimeseriesDataPoint(dataArray) {
 }
 
 async function fetchDataFromTimeseries() {
-  const query = `SELECT SUM(cost) AS total_cost FROM selling1 WHERE time >= now() - 30d AND customer = 'baljinder' GROUP BY time(1d)`
+  const query = `SELECT * FROM "selling1" WHERE time >= now() - interval '120 hour'`
 
   console.log('Going to fetch data from timerseries database');
 
