@@ -5,7 +5,7 @@ const Canvas = require('canvas'); // Required for jsbarcode
 const bwipjs = require('bwip-js');
 
 
-//const timeseriesDB = require('./timeseriesDB.js');
+const timeseriesDB = require('./timeseriesDB.js');
 const cacheDB = require('./cacheDB.js');
 
 const app = express();
@@ -166,7 +166,7 @@ app.get('/generateBarcode', (req, res) => {
 
 
 // Start the server
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
