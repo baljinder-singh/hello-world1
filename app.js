@@ -38,7 +38,10 @@ timeseriesDB.createTimeseriesDataPoint(testData);
 
 // fetching data
 
-timeseriesDB.fetchDataFromTimeseries();
+setTimeout(function(){
+  timeseriesDB.fetchDataFromTimeseries();
+}, 2000);
+
 
 // Middleware
 app.use(express.json()); // Parse JSON bodies
