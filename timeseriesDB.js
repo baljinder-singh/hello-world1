@@ -53,9 +53,10 @@ async function createTimeseriesDataPoint(dataArray) {
 }
 
 async function fetchDataFromTimeseries() {
+  console.log('Going to fetch data from timerseries database');
   const query = `SELECT * FROM "selling1" WHERE time >= now() - interval '120 hour'`
 
-  console.log('Going to fetch data from timerseries database');
+
 
   const rows = await timeseriesClient.query(query, 'testingtimeseriesdata');
   console.log('data fetched from timerseries database');

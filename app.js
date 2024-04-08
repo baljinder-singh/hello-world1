@@ -37,10 +37,7 @@ timeseriesDB.createTimeseriesDataPoint(testData);
 
 
 // fetching data
-
-setTimeout(function(){
-  timeseriesDB.fetchDataFromTimeseries();
-}, 2000);
+timeseriesDB.fetchDataFromTimeseries();
 
 
 // Middleware
