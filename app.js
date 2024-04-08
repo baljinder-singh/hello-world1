@@ -12,10 +12,10 @@ const app = express();
 
 
 console.log('Going to createTimeseriesDataPoint');
-//timeseriesDB.createTimeseriesDataPoint();
+timeseriesDB.createTimeseriesDataPoint();
 
-console.log('Going to createTimeseriesDataPoint');
-//timeseriesDB.fetchDataFromTimeseries();
+console.log('Going to @influxdata/influxdb3-client');
+timeseriesDB.fetchDataFromTimeseries();
 
 console.log('All DOne');
 
