@@ -23,16 +23,16 @@ async function createTimeseriesDataPoint(dataArray) {
       const fields = data.fields || {}; // Fields (e.g., cost)
 
       // Create a new Point object for the data point
-      const point = new Point(measurementName);
+      const point = new Point.measurement(measurementName);
 
       // Set tags for the data point
       for (const [tagName, tagValue] of Object.entries(tags)) {
-        point.tag(tagName, tagValue);
+        point.setTag(tagName, tagValue);
       }
 
       // Set fields for the data point (assuming all fields are integers)
       for (const [fieldName, fieldValue] of Object.entries(fields)) {
-        point.intField(fieldName, fieldValue);
+        point.setIntegerField(fieldName, fieldValue);
       }
 
       // Add the constructed point to the points array
