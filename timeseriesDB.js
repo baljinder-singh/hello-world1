@@ -53,18 +53,20 @@ async function createTimeseriesDataPoint(dataArray) {
 }
 
 async function fetchDataFromTimeseries() {
-  const query = `SELECT SUM(cost) AS total_cost FROM selling1 WHERE time >= now() - 30d AND customer = 'baljinder' GROUP BY time(1d)`
+  setTimeout(function() {
+    const query = `SELECT SUM(cost) AS total_cost FROM selling1 WHERE time >= now() - 30d AND customer = 'baljinder' GROUP BY time(1d)`
 
-  console.log('Going to fetch data from timerseries database');
+    console.log('Going to fetch data from timerseries database');
 
-  const rows = await timeseriesClient.query(query, 'testingtimeseriesdata');
-  console.log('data fetched from timerseries database');
+    const rows = await timeseriesClient.query(query, 'testingtimeseriesdata');
+    console.log('data fetched from timerseries database');
 
-  for await (const row of rows) {
-    console.log('row');
-    console.log(row);
+    for await (const row of rows) {
+      console.log('row');
+      console.log(row);
 
-  }
+    }
+  }, 2000);
 };
 
 
