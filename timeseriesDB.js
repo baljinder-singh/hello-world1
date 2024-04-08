@@ -41,12 +41,10 @@ async function createTimeseriesDataPoint(dataArray) {
 
     // Write all data points to the timeseries database
     for (const point of points) {
-      console.log('Writing data point:');
       console.log(point.toLineProtocol()); // Log the data point in line protocol format
 
       // Write the data point to the timeseries database
       await timeseriesClient.write(point, database);
-      console.log('Data point written successfully');
     }
 
   } catch (error) {
@@ -55,9 +53,12 @@ async function createTimeseriesDataPoint(dataArray) {
 }
 
 async function fetchDataFromTimeseries() {
-  const query = `SELECT SUM(cost) AS total_cost FROM selling1 WHERE time >= now() - 30d AND "customer" = 'baljinder' GROUP BY time(1d)`
+  const query = `SELECT SUM(cost) AS total_cost FROM selling1 WHERE time >= now() - 30d AND customer = 'baljinder' GROUP BY time(1d)`
+
+  console.log('Going to fetch data from timerseries database');
 
   const rows = await timeseriesClient.query(query, 'testingtimeseriesdata');
+  console.log('data fetched from timerseries database');
 
   for await (const row of rows) {
     console.log('row');
