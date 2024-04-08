@@ -10,36 +10,6 @@ const cacheDB = require('./cacheDB.js');
 
 const app = express();
 
-
-// Example usage:
-const testData = [{
-    measurement: 'selling1',
-    tags: {
-      area: 'india',
-      customer: 'baljinder'
-    },
-    fields: {
-      cost: 1200
-    }
-},
-  {
-    measurement: 'selling1',
-    tags: {
-      area: 'england',
-      customer: 'baljinder'
-    },
-    fields: {
-      cost: 2400
-    }
-}];
-
-timeseriesDB.createTimeseriesDataPoint(testData);
-
-
-// fetching data
-timeseriesDB.fetchDataFromTimeseries();
-
-
 // Middleware
 app.use(express.json()); // Parse JSON bodies
 app.use(cors()); // Enable CORS for all routes
@@ -107,6 +77,45 @@ app.post('/bill', (req, res) => {
   });
 });
 
+
+// POST BILL route handler
+app.post('/timeseries', (req, res) => {
+  // Log request query parameters
+  console.log('Request Query Parameters:');
+  console.log(req.query);
+
+  // Log request body (parsed by bodyParser middleware)
+  console.log('Request Body:');
+  console.log(req.body);
+
+
+  // Example usage:
+
+  let testData = [];
+
+  for(let data of req.body) {
+    let testDataPoint = {
+      measurement: req.query.userid,
+      tags: data.tags,
+      fields: { cost: data.cost }
+    };
+    testData.push(testDataPoint);
+  }
+
+  try {
+    timeseriesDB.createTimeseriesDataPoint(testData);
+    res.send({
+      message: 'Data set in timeseries successfully!'
+    });
+  }
+  catch(e) {
+    res.send({
+      message: 'Data NOT set in timeseries!. Got Eroor',
+      err: e
+    });
+  }
+});
+
 // GET route handler
 app.get('/', (req, res) => {
   // Log request query parameters
@@ -164,6 +173,20 @@ app.get('/bill', (req, res) => {
       });
     }
   });
+});
+
+
+app.get('/timeseries', (req, res) => {
+  // Log request query parameters
+  console.log('Request Query Parameters for get request:');
+  console.log(req.query);
+
+  // Example: Retrieve a value from Redis based on a key
+  const key = req.query.userid + '-bill';
+
+  // fetching data
+  var rows = timeseriesDB.fetchDataFromTimeseries();
+  res.send(rows);
 });
 
 // Endpoint to generate barcode
