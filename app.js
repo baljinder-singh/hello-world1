@@ -38,7 +38,7 @@ timeseriesDB.createTimeseriesDataPoint(testData);
 
 // fetching data
 
-timeseriesDB.fetchDataFromTimeseries();
+//timeseriesDB.fetchDataFromTimeseries();
 
 console.log('All DOne');
 
