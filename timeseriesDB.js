@@ -64,6 +64,7 @@ async function fetchDataFromTimeseries(queryString) {
   console.log(queryString);
   const rows = await timeseriesClient.query(query, 'testingtimeseriesdata');
   console.log('data fetched from timerseries database');
+  console.log(rows);
 
   return rows;
 };
