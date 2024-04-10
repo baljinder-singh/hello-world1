@@ -52,7 +52,7 @@ async function createTimeseriesDataPoint(dataArray) {
   }
 }
 
-async function fetchDataFromTimeseries(queryString) {
+async function fetchDataFromTimeseries(queryString, cb) {
   console.log('Going to fetch data from timerseries database');
   let query = queryString || `SELECT * FROM selling1 WHERE customer = 'baljinder' AND time >= now() - interval '120 hour'`
 
@@ -80,19 +80,7 @@ async function fetchDataFromTimeseries(queryString) {
       object[key+i] = row;
 
     }
-
-    console.log('Query execution completed.');
-    console.log('rows');
-    console.log(rows);
-    console.log('data');
-    console.log(data);
-    console.log('object');
-    console.log(object);
-
-
-    return data;
-
-
+    cb(data);
 
   } catch (error) {
     console.error('Error executing timeseries query:', error);
