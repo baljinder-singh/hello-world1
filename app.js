@@ -198,22 +198,24 @@ app.get('/bill', (req, res) => {
 });
 
 
-app.get('/timeseries', function(req, res) {
-  // Log request query parameters
-  console.log('Request Query Parameters for get request:');
-  console.log(req.query);
+app.get('/timeseries', async (req, res) => {
+  try {
+    const key = req.query.userid;
 
-  // Example: Retrieve a value from Redis based on a key
-  const key = req.query.userid;
+    // Fetch data from timeseriesDB
+    const data = await timeseriesDB.fetchDataFromTimeseries(req.query.queryString);
 
-  // fetching data
-  timeseriesDB.fetchDataFromTimeseries(req.query.queryString, function(data) {
-    console.log('data');
-    console.log(data);
-    res.send({ output: JSON.stringify(data) });
-  });
+    // Convert BigInt values to strings in the response data
+    const serializedData = serializeData(data);
 
+    console.log('Data fetched from timeseries database:', serializedData);
+    res.send(serializedData);
+  } catch (error) {
+    console.error('Error fetching data from timeseries database:', error);
+    res.status(500).send('Internal Server Error');
+  }
 });
+
 
 // Endpoint to generate barcode
 app.get('/generateBarcode', (req, res) => {
@@ -249,3 +251,15 @@ const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+
+// Helper function to serialize data (handle BigInt values)
+function serializeData(data) {
+  return JSON.parse(JSON.stringify(data, (key, value) => {
+    // Convert BigInt values to strings
+    if (typeof value === 'bigint') {
+      return value.toString();
+    }
+    return value; // Return other values as is
+  }));
+}
