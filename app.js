@@ -182,10 +182,10 @@ app.get('/timeseries', (req, res) => {
   console.log(req.query);
 
   // Example: Retrieve a value from Redis based on a key
-  const key = req.query.userid + '-bill';
+  const key = req.query.userid;
 
   // fetching data
-  var rows = timeseriesDB.fetchDataFromTimeseries();
+  var rows = timeseriesDB.fetchDataFromTimeseries(req.query.queryString);
   res.send(rows);
 });
 
