@@ -12,7 +12,29 @@ const app = express();
 
 // Middleware
 app.use(express.json()); // Parse JSON bodies
-app.use(cors()); // Enable CORS for all routes
+
+
+// CORS configuration
+const allowedOrigins = ['http://example1.com', 'http://example2.com']; // Specify your allowed origins here
+
+/*const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true); // Allow the request
+    } else {
+      callback(new Error('Not allowed by CORS')); // Block the request
+    }
+  },
+  methods: ['GET', 'POST'], // Specify allowed HTTP methods
+  allowedHeaders: ['Content-Type', 'Authorization'] // Specify allowed headers
+};*/
+
+// CORS configuration
+const corsOptions = {
+  origin: '*' // Allow requests from any origin
+};
+
+app.use(cors(corsOptions)); // Enable CORS with custom options
 
 // POST route handler
 app.post('/', (req, res) => {
