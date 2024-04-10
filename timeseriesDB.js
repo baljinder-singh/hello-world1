@@ -90,7 +90,7 @@ async function fetchDataFromTimeseries(queryString) {
     console.log(object);
 
 
-    return rows;
+    return data;
 
 
 
