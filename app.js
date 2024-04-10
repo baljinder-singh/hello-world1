@@ -210,7 +210,7 @@ app.get('/timeseries', function(req, res) {
   timeseriesDB.fetchDataFromTimeseries(req.query.queryString, function(data) {
     console.log('data');
     console.log(data);
-    res.send({output: data});
+    res.send({output:JSON.stringify(data)});
   });
 
 });
