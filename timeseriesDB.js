@@ -76,8 +76,6 @@ async function fetchDataFromTimeseries(queryString) {
       console.log('Row:', row);
 
 
-      const time = new Date(row._time).toISOString(); // Convert time to ISO string
-
       data.push(row);
       object[key+i] = row;
 
