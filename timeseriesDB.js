@@ -79,8 +79,6 @@ async function fetchDataFromTimeseries(queryString) {
       data.push(row);
       object[key+i] = row;
 
-      // Output the retrieved data
-      console.log(`Total cost on ${time}: ${totalCost}`);
     }
 
     console.log('Query execution completed.');
