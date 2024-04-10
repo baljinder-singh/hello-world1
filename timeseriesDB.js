@@ -80,7 +80,10 @@ async function fetchDataFromTimeseries(queryString, cb) {
       object[key+i] = row;
 
     }
-    cb(data);
+    setTimeout(function() {
+      cb(data);
+    }, 5000)
+
 
   } catch (error) {
     console.error('Error executing timeseries query:', error);
