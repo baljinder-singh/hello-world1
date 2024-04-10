@@ -176,7 +176,7 @@ app.get('/bill', (req, res) => {
 });
 
 
-app.get('/timeseries', (req, res) => {
+app.get('/timeseries', async function(req, res) {
   // Log request query parameters
   console.log('Request Query Parameters for get request:');
   console.log(req.query);
@@ -185,8 +185,9 @@ app.get('/timeseries', (req, res) => {
   const key = req.query.userid;
 
   // fetching data
-  var rows = timeseriesDB.fetchDataFromTimeseries(req.query.queryString);
-  res.send(rows);
+  var data = await timeseriesDB.fetchDataFromTimeseries(req.query.queryString);
+  console.log(data);
+  res.send(data);
 });
 
 // Endpoint to generate barcode
