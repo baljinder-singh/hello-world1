@@ -95,9 +95,9 @@ app.post('/timeseries', (req, res) => {
 
   for(let data of req.body) {
     let testDataPoint = {
-      measurement: req.query.userid,
+      measurement: data.measureName,
       tags: data.tags,
-      fields: { cost: data.cost }
+      fields: { [data.measureField]: [data.measureValue] }
     };
     testData.push(testDataPoint);
   }
