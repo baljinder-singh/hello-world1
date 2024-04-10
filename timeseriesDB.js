@@ -53,20 +53,56 @@ async function createTimeseriesDataPoint(dataArray) {
 }
 
 async function fetchDataFromTimeseries(queryString) {
-  console.log('queryString');
-  console.log(queryString);
   console.log('Going to fetch data from timerseries database');
   let query = queryString || `SELECT * FROM selling1 WHERE customer = 'baljinder' AND time >= now() - interval '120 hour'`
 
-
-
   console.log('queryString');
   console.log(queryString);
-  const rows = await timeseriesClient.query(query, 'testingtimeseriesdata');
-  console.log('data fetched from timerseries database');
-  console.log(rows);
 
-  return rows;
+  var data = [];
+
+  var object = {};
+  var key = 'key';
+  var i = 0;
+
+  try {
+    // Execute the InfluxDB query and retrieve data
+    const rows = await timeseriesClient.query(query, 'testingtimeseriesdata');
+
+    // Iterate over the query result rows using a for-await-of loop
+    for await (const row of rows) {
+      i++;
+      // Log each row object
+      console.log('Row:', row);
+
+
+      const time = new Date(row._time).toISOString(); // Convert time to ISO string
+
+      data.push(row);
+      object[key+i] = row;
+
+      // Output the retrieved data
+      console.log(`Total cost on ${time}: ${totalCost}`);
+    }
+
+    console.log('Query execution completed.');
+    console.log('rows');
+    console.log(rows);
+    console.log('data');
+    console.log(data);
+    console.log('object');
+    console.log(object);
+
+
+    return rows;
+
+
+
+  } catch (error) {
+    console.error('Error executing timeseries query:', error);
+  }
+
+
 };
 
 
