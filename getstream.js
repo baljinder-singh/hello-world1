@@ -8,7 +8,7 @@ let YOUR_API_SECRET = process.env.YOUR_API_SECRET;
 
 const client = stream.connect(YOUR_API_KEY, YOUR_API_SECRET);
 
-const userToken = client.createUserToken('pradeep');
+const userToken = client.createUserToken('chris');
 
 async function addActivity() {
   let chris = client.feed('user', 'chris');
