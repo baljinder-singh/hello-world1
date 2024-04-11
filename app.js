@@ -7,6 +7,7 @@ const bwipjs = require('bwip-js');
 
 const timeseriesDB = require('./timeseriesDB.js');
 const cacheDB = require('./cacheDB.js');
+const getstream = require('./getstream.js');
 
 const app = express();
 
@@ -35,6 +36,14 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions)); // Enable CORS with custom options
+
+// Going to addActivity in feed
+console.log('Going to addActivity in feed');
+getstream.addActivity();
+
+
+console.log('Going to getActivity in feed');
+getstream.getActivity();
 
 // POST route handler
 app.post('/', (req, res) => {
