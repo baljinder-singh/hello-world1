@@ -37,13 +37,6 @@ const corsOptions = {
 
 app.use(cors(corsOptions)); // Enable CORS with custom options
 
-// Going to addActivity in feed
-console.log('Going to addActivity in feed');
-getstream.addActivity();
-
-
-console.log('Going to getActivity in feed');
-getstream.getActivity();
 
 // POST route handler
 app.post('/', (req, res) => {
@@ -257,8 +250,16 @@ app.get('/generateBarcode', (req, res) => {
 
 // Start the server
 const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => {
+app.listen(PORT, async() => {
   console.log(`Server is running on port ${PORT}`);
+
+  // Going to addActivity in feed
+  console.log('Going to addActivity in feed');
+  await getstream.addActivity();
+
+
+  console.log('Going to getActivity in feed');
+  await getstream.getActivity();
 });
 
 

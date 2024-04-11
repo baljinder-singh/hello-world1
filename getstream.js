@@ -5,8 +5,15 @@ const stream = require('getstream');
 let YOUR_API_KEY = process.env.YOUR_API_KEY;
 let YOUR_API_SECRET = process.env.YOUR_API_SECRET;
 
+console.log('YOUR_API_KEY');
+console.log(YOUR_API_KEY);
+console.log('YOUR_API_SECRET');
+console.log(YOUR_API_SECRET);
+
 
 const client = stream.connect(YOUR_API_KEY, YOUR_API_SECRET);
+
+console.log('stream connected');
 
 const userToken = client.createUserToken('chris');
 
