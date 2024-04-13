@@ -20,6 +20,7 @@
     "cors": "^2.8.5",
     "bwip-js": "4.3.2",
     "@influxdata/influxdb3-client": "0.7.0",
-    "getstream": "*"
+    "getstream": "*",
+    "jsonwebtoken": "*"
   }
 }

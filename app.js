@@ -8,6 +8,7 @@ const bwipjs = require('bwip-js');
 const timeseriesDB = require('./timeseriesDB.js');
 const cacheDB = require('./cacheDB.js');
 const getstream = require('./getstream.js');
+const token = require('./token.js');
 const baseapp = require('./baseapp.js');
 
 const app = express();
@@ -40,6 +41,15 @@ app.use(cors(corsOptions)); // Enable CORS with custom options
 app.get('/protected-page', baseapp.verifyToken, (req, res) => {
   // Access user data from req.user (if token is valid)
   res.send('Welcome, authorized user!');
+});
+
+app.get('/token', async (req, res) => {
+  // Access user data from req.user (if token is valid)
+  let token = await token.generateToken;
+  res.send({
+    output: 'Found token!',
+    token: token
+  });
 });
 
 // POST route handler
