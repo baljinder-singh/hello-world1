@@ -45,10 +45,10 @@ app.get('/protected-page', baseapp.verifyToken, (req, res) => {
 
 app.get('/token', async (req, res) => {
   // Access user data from req.user (if token is valid)
-  let token = await token.generateToken();
+  let genratedToken = token.generateToken();
   res.send({
     output: 'Found token!',
-    token: token
+    token: genratedToken
   });
 });
 
