@@ -13,6 +13,11 @@ const baseapp = require('./baseapp.js');
 
 const app = express();
 
+const users = [
+  { username: 'user1', password: 'password123' },
+  { username: 'user2', password: 'password456' },
+];
+
 // Middleware
 app.use(express.json()); // Parse JSON bodies
 
@@ -37,6 +42,22 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions)); // Enable CORS with custom options
+
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+
+  const foundUser = users.find(user => user.username === username);
+
+  if (!foundUser || foundUser.password !== password) {
+    return res.status(401).send('Invalid username or password');
+  }
+
+  let genratedToken = token.generateToken();
+  res.send({
+    output: 'Found token!',
+    token: genratedToken
+  });
+});
 
 app.get('/protected-page', baseapp.verifyToken, (req, res) => {
   // Access user data from req.user (if token is valid)
