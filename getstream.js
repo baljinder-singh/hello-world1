@@ -5,46 +5,43 @@ const stream = require('getstream');
 let YOUR_API_KEY = process.env.YOUR_API_KEY;
 let YOUR_API_SECRET = process.env.YOUR_API_SECRET;
 
-console.log('YOUR_API_KEY');
-console.log(YOUR_API_KEY);
-console.log('YOUR_API_SECRET');
-console.log(YOUR_API_SECRET);
-
-
 const client = stream.connect(YOUR_API_KEY, YOUR_API_SECRET);
 
 console.log('stream connected');
 
 const userToken = client.createUserToken('chris');
 
-async function addActivity() {
-  let chris = client.feed('user', 'chris');
+async function addActivity(username, data) {
+  let userFeed = client.feed('user', username);
 
-  // Add an Activity; message is a custom field - tip: you can add unlimited custom fields!
-  await chris.addActivity({
-      actor: 'chris',
-      verb: 'add',
-      object: 'picture:10',
-      foreign_id: 'picture:10',
-      message: 'Beautiful bird!'
-  });
+  let activityObj = {
+      actor: data.actor,
+      verb: data.verb,
+      object: data.object,
+      message: data.message
+  };
+
+  if(data.foreign_id) { activityObj.foreign_id = data.foreign_id; }
+
+  var response = await userFeed.addActivity(activityObj);
+  return response;
 }
 
 
-async function getActivity() {
-
-  let chris = client.feed('user', 'chris');
+async function getActivity(username, limit) {
+  let userFeed = client.feed('user', username);
 
 
   // Read Jack's timeline and Chris' post appears in the feed:
-  const results = await chris.get({ limit: 10 });
+  const results = await userFeed.get({ limit: limit || 10 });
 
   console.log('results');
   console.log(results);
+  return results;
 
 }
 
 module.exports = {
   addActivity: addActivity,
   getActivity: getActivity
-}
+};

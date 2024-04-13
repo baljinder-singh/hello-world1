@@ -140,6 +140,33 @@ app.post('/timeseries', (req, res) => {
   }
 });
 
+// POST feed data handler
+app.post('/feed', async(req, res) => {
+  // Log request query parameters
+  console.log('Request Query Parameters:');
+  console.log(req.query);
+
+  // Log request body (parsed by bodyParser middleware)
+  console.log('Request Body:');
+  console.log(req.body);
+
+
+  try {
+    let output = await getstream.addActivity(req.query.userid, req.body);
+    res.send({
+      message: output
+    });
+  }
+  catch(e) {
+    res.send({
+      message: 'Data NOT set in feed!. Got Eroor',
+      err: e
+    });
+  }
+});
+
+
+
 // GET route handler
 app.get('/', (req, res) => {
   // Log request query parameters
@@ -218,6 +245,27 @@ app.get('/timeseries', async (req, res) => {
   }
 });
 
+// POST feed data handler
+app.get('/feed', async(req, res) => {
+  // Log request query parameters
+  console.log('Request Query Parameters:');
+  console.log(req.query);
+
+
+  try {
+    let output = await getstream.getActivity(req.query.userid, req.query.limit);
+    res.send({
+      message: output
+    });
+  }
+  catch(e) {
+    res.send({
+      message: 'Data NOT set in feed!. Got Eroor',
+      err: e
+    });
+  }
+});
+
 
 // Endpoint to generate barcode
 app.get('/generateBarcode', (req, res) => {
@@ -252,14 +300,6 @@ app.get('/generateBarcode', (req, res) => {
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, async() => {
   console.log(`Server is running on port ${PORT}`);
-
-  // Going to addActivity in feed
-  console.log('Going to addActivity in feed');
-  await getstream.addActivity();
-
-
-  console.log('Going to getActivity in feed');
-  await getstream.getActivity();
 });
 
 
