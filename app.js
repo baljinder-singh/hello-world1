@@ -59,7 +59,7 @@ app.post('/signup', (req, res) => {
     console.log('err');
     console.log(err);
     if(reply) {
-      res.send({ message: 'user already exists' });
+      res.status(401).send('user already exists');
       return;
     }
     cacheDB.client.hset(key, field, value, (err, reply) => {
