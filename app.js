@@ -38,6 +38,8 @@ const corsOptions = {
 
 app.use(cors(corsOptions)); // Enable CORS with custom options
 
+app.use(token.verifyToken);
+
 
 app.post('/signup', (req, res) => {
   const { username, password } = req.body;
