@@ -43,6 +43,40 @@ const corsOptions = {
 
 app.use(cors(corsOptions)); // Enable CORS with custom options
 
+
+app.post('/signup', (req, res) => {
+  const { username, password } = req.body;
+
+  var key = 'signup';
+  var field = username;
+  var value = password;
+
+  console.log('key, field');
+  console.log(key, field);
+  cacheDB.client.hget(key, field, (err, reply) => {
+    console.log('reply');
+    console.log(reply);
+    console.log('err');
+    console.log(err);
+    if(reply) {
+      res.send({ message: 'user already exists' });
+      return;
+    }
+    cacheDB.client.hset(key, field, value, (err, reply) => {
+      if (err) {
+        console.error('Redis hset error:', err);
+        return res.status(500).send('Internal Server Error');
+      }
+      // Example usage:
+
+      console.log('Redis hset response:', reply);
+      res.send({
+        message: 'User Signed up suceessfully!'
+      });
+    });
+  });
+});
+
 app.post('/login', (req, res) => {
   const { username, password } = req.body;
 
