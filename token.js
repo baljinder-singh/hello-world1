@@ -13,3 +13,7 @@ function generateToken(userData) {
   return jwt.sign(payload, secretKey, options);
 }
 
+module.exports = {
+  generateToken: generateToken
+};
+
