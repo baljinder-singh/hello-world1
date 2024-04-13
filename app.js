@@ -13,11 +13,6 @@ const baseapp = require('./baseapp.js');
 
 const app = express();
 
-const users = [
-  { username: 'user1', password: 'password123' },
-  { username: 'user2', password: 'password456' },
-];
-
 // Middleware
 app.use(express.json()); // Parse JSON bodies
 
@@ -80,16 +75,24 @@ app.post('/signup', (req, res) => {
 app.post('/login', (req, res) => {
   const { username, password } = req.body;
 
-  const foundUser = users.find(user => user.username === username);
+  cacheDB.client.hget(key, field, (err, reply) => {
+    console.log('reply');
+    console.log(reply);
+    console.log('err');
+    console.log(err);
+    if(reply === password) {
+      console.log(111111111111111);
+      let genratedToken = token.generateToken();
+      res.send({
+        output: 'Found token!',
+        token: genratedToken
+      });
 
-  if (!foundUser || foundUser.password !== password) {
-    return res.status(401).send('Invalid username or password');
-  }
-
-  let genratedToken = token.generateToken();
-  res.send({
-    output: 'Found token!',
-    token: genratedToken
+    }
+    else {
+      console.log(2222222222222222222);
+      return res.status(401).send('Invalid username or password');
+    }
   });
 });
 
