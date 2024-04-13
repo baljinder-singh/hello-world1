@@ -8,12 +8,12 @@ const bwipjs = require('bwip-js');
 const timeseriesDB = require('./timeseriesDB.js');
 const cacheDB = require('./cacheDB.js');
 const getstream = require('./getstream.js');
+const baseapp = require('./baseapp.js');
 
 const app = express();
 
 // Middleware
 app.use(express.json()); // Parse JSON bodies
-
 
 // CORS configuration
 const allowedOrigins = ['http://example1.com', 'http://example2.com']; // Specify your allowed origins here
@@ -37,6 +37,10 @@ const corsOptions = {
 
 app.use(cors(corsOptions)); // Enable CORS with custom options
 
+app.get('/protected-page', baseapp.verifyToken, (req, res) => {
+  // Access user data from req.user (if token is valid)
+  res.send('Welcome, authorized user!');
+});
 
 // POST route handler
 app.post('/', (req, res) => {
@@ -153,8 +157,9 @@ app.post('/feed', async(req, res) => {
 
   try {
     let output = await getstream.addActivity(req.query.userid, req.body);
+    console.log(output);
     res.send({
-      message: output
+      message: 'Data added successfully in feed'
     });
   }
   catch(e) {
