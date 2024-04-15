@@ -38,8 +38,6 @@ const corsOptions = {
 
 app.use(cors(corsOptions)); // Enable CORS with custom options
 
-app.use(token.verifyToken);
-
 
 app.post('/signup', (req, res) => {
   const { username, password } = req.body;
@@ -98,7 +96,9 @@ app.post('/login', (req, res) => {
   });
 });
 
-app.get('/protected-page', baseapp.verifyToken, (req, res) => {
+app.use(token.verifyToken);
+
+app.get('/protected-page', (req, res) => {
   // Access user data from req.user (if token is valid)
   res.send('Welcome, authorized user!');
 });
