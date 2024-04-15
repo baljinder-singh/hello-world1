@@ -25,7 +25,8 @@ function verifyToken(req, res, next) {
     req.user = decoded.user; // Attach decoded user data to the request object
     next();
   } catch (error) {
-    res.status(403).send('Invalid Token');
+    console.log(error);
+    res.status(403).send('Invalid Token' + error);
   }
 }
 
