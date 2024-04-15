@@ -96,8 +96,6 @@ app.post('/login', (req, res) => {
   });
 });
 
-app.use(token.verifyToken);
-
 app.get('/protected-page', (req, res) => {
   // Access user data from req.user (if token is valid)
   res.send('Welcome, authorized user!');
@@ -111,6 +109,10 @@ app.get('/token', async (req, res) => {
     token: genratedToken
   });
 });
+
+
+
+app.use(token.verifyToken);
 
 // POST route handler
 app.post('/', (req, res) => {
