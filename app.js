@@ -75,7 +75,9 @@ app.post('/signup', (req, res) => {
 app.post('/login', (req, res) => {
   const { username, password } = req.body;
 
-  cacheDB.client.hget(key, field, (err, reply) => {
+  const key = 'signup';
+
+  cacheDB.client.hget(key, username, (err, reply) => {
     console.log('reply');
     console.log(reply);
     console.log('err');
