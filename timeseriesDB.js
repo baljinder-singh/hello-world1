@@ -21,9 +21,10 @@ async function createTimeseriesDataPoint(dataArray) {
       const measurementName = data.measurement || 'census'; // Default measurement name
       const tags = data.tags || {}; // Tags (e.g., location, area)
       const fields = data.fields || {}; // Fields (e.g., cost)
+      const timestamp = data.timestamp || Date.now(); // Default to current timestamp
 
       // Create a new Point object for the data point
-      const point = Point.measurement(measurementName);
+      const point = Point.measurement(measurementName).time(timestamp);
 
       // Set tags for the data point
       for (const [tagName, tagValue] of Object.entries(tags)) {

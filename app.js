@@ -98,21 +98,6 @@ app.post('/login', (req, res) => {
   });
 });
 
-app.get('/protected-page', (req, res) => {
-  // Access user data from req.user (if token is valid)
-  res.send('Welcome, authorized user!');
-});
-
-app.get('/token', async (req, res) => {
-  // Access user data from req.user (if token is valid)
-  let genratedToken = token.generateToken();
-  res.send({
-    output: 'Found token!',
-    token: genratedToken
-  });
-});
-
-
 
 app.use(token.verifyToken);
 
