@@ -19,7 +19,7 @@
     "canvas": "^2.9.0",
     "cors": "^2.8.5",
     "bwip-js": "4.3.2",
-    "@influxdata/influxdb3-client": "0.7.0",
+    "@influxdata/influxdb3-client": "*",
     "getstream": "*",
     "jsonwebtoken": "*"
   }
