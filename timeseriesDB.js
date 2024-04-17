@@ -24,7 +24,7 @@ async function createTimeseriesDataPoint(dataArray) {
       const timestamp = data.timestamp || Date.now(); // Default to current timestamp
 
       // Create a new Point object for the data point
-      const point = Point.measurement(measurementName).time(timestamp);
+      const point = Point.measurement(measurementName).timestamp(timestamp);
 
       // Set tags for the data point
       for (const [tagName, tagValue] of Object.entries(tags)) {
