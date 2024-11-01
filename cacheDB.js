@@ -1,9 +1,9 @@
 
 var redis = require('redis');
 
-var client = redis.createClient('12611', 'redis-12611.c1.us-west-2-2.ec2.cloud.redislabs.com');
+var client = redis.createClient('13207', 'redis-13207.c241.us-east-1-4.ec2.redns.redis-cloud.com');
 
-client.auth('qWj1TjnQ649eEHajzsfFmYO3yIIDDDIS', function (err) {
+client.auth('TcGmbfefJrRMezO3i6wVilU4BDNKRTWL', function (err) {
   if (err) {
     console.log('err');
   }
